@@ -1,0 +1,34 @@
+name: FamilyFlow
+options:
+  bundleIdPrefix: com.drozdnik
+  deploymentTarget:
+    iOS: "15.0"
+targets:
+  FamilyFlow:
+    type: application
+    platform: iOS
+    sources:
+      - FamilyFlow
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: "com.drozdnik.FamilyFlow"
+      INFOPLIST_FILE: FamilyFlow/Info.plist
+  FamilyFlowTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - FamilyFlowTests
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: "com.drozdnik.FamilyFlow"
+      INFOPLIST_FILE: FamilyFlow/Info.plist
+    dependencies:
+      - target: FamilyFlow
+  FamilyFlowUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - FamilyFlowUITests
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: "com.drozdnik.FamilyFlow"
+      INFOPLIST_FILE: FamilyFlow/Info.plist
+    dependencies:
+      - target: FamilyFlow

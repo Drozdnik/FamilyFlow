@@ -3,12 +3,26 @@
 
 import PackageDescription
 
+let swiftSettings: [SwiftSetting] = [
+  .enableUpcomingFeature("BareSlashRegexLiterals"),
+  .enableUpcomingFeature("ConciseMagicFile"),
+  .enableUpcomingFeature("ExistentialAny"),
+  .enableUpcomingFeature("ForwardTrailingClosures"),
+  .enableUpcomingFeature("ImplicitOpenExistentials"),
+  .enableUpcomingFeature("StrictConcurrency"),
+  .unsafeFlags(["-warn-concurrency", "-enable-actor-data-race-checks"]),
+]
+
+
 let package = Package(
     name: "FFCore",
     products: [
         .library(name: "FFCore", targets: ["FFCore"]),
     ],
     targets: [
-        .target(name: "FFCore"),
+        .target(
+            name: "FFCore",
+            swiftSettings: swiftSettings
+        ),
     ]
 )

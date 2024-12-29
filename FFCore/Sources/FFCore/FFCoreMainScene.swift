@@ -1,3 +1,3 @@
 import UIKit
 
-public final class FFCoreMainScene: UIViewController {}
+public final class FFCoreMainScene: UIViewController { }

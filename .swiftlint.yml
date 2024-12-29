@@ -106,15 +106,13 @@ opt_in_rules: # правила, которые нужно явно включи�
  - void_return
  - weak_delegate
  - yoda_condition
- - contrasted_opening_brace:
-    severity: warning
  
 analyzer_rules:
- - capture_variable: # Capture Variable
- - explicit_self: # Explicit Self
- - typesafe_array_init: # Type-safe Array Init
- - unused_declaration: # Unused Declaration
- - unused_import: # Unused Import
+ - capture_variable # Capture Variable
+ - explicit_self # Explicit Self
+ - typesafe_array_init # Type-safe Array Init
+ - unused_declaration # Unused Declaration
+ - unused_import # Unused Import
 
 reporter: "xcode"
 

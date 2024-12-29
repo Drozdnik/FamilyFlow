@@ -106,7 +106,7 @@ opt_in_rules: # правила, которые нужно явно включи�
  - void_return
  - weak_delegate
  - yoda_condition
- 
+
 analyzer_rules:
  - capture_variable # Capture Variable
  - explicit_self # Explicit Self

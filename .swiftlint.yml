@@ -1,0 +1,132 @@
+opt_in_rules: # правила, которые нужно явно включить
+ - empty_count
+ - class_delegate_protocol
+ - colon
+ - comma
+ - control_statement
+ - force_cast
+ - force_try
+ - force_unwrapping
+ - todo
+ - explicit_init
+ - trailing_whitespace
+ - identifier_name
+ - reduce_boolean
+ - array_init
+ - attributes
+ - balanced_xctest_lifecycle
+ - block_based_kvo
+ - closure_spacing
+ - collection_alignment
+ - comment_spacing
+ - contains_over_filter_count
+ - contains_over_filter_is_empty
+ - contains_over_first_not_nil
+ - conditional_returns_on_newline
+ - convenience_type
+ - cyclomatic_complexity
+ - discouraged_none_name
+ - discouraged_optional_boolean
+ - duplicate_conditions
+ - duplicate_enum_cases
+ - duplicate_imports
+ - duplicated_key_in_dictionary_literal
+ - empty_collection_literal
+ - empty_enum_arguments
+ - empty_parameters
+ - empty_parentheses_with_trailing_closure
+ - empty_xctest_method
+ - expiring_todo
+ - fatal_error_message
+ - file_name_no_space
+ - first_where
+ - flatmap_over_map_reduce
+ - for_where
+ - implicit_return
+ - inclusive_language
+ - indentation_width
+ - invalid_swiftlint_command
+ - is_disjoint
+ - last_where
+ - leading_whitespace
+ - legacy_cggeometry_functions
+ - legacy_constant
+ - legacy_objc_type
+ - let_var_whitespace
+ - mark
+ - modifier_order
+ - multiline_arguments
+ - multiline_arguments_brackets
+ - multiline_function_chains
+ - multiline_literal_brackets
+ - multiline_parameters
+ - multiline_parameters_brackets
+ - multiple_closures_with_trailing_closure
+ - nesting
+ - no_grouping_extension
+ - no_magic_numbers
+ - no_space_in_method_call
+ - trailing_newline
+ - non_overridable_class_declaration
+ - number_separator
+ - opening_brace
+ - operator_usage_whitespace
+ - operator_whitespace
+ - optional_enum_case_matching
+ - overridden_super_call
+ - override_in_extension
+ - period_spacing
+ - prefer_self_in_static_references
+ - prefer_self_type_over_type_of_self
+ - prefer_zero_over_explicit_init
+ - prefixed_toplevel_constant
+ - private_over_fileprivate
+ - private_subject
+ - private_swiftui_state
+ - protocol_property_accessors_order
+ - redundant_optional_initialization
+ - self_binding
+ - sorted_enum_cases
+ - sorted_first_last
+ - sorted_imports
+ - superfluous_disable_command
+ - superfluous_else
+ - switch_case_alignment
+ - switch_case_on_newline
+ - toggle_bool
+ - trailing_semicolon
+ - unavailable_condition
+ - unhandled_throwing_task
+ - unneeded_break_in_switch
+ - unneeded_override
+ - unused_enumerated
+ - unused_optional_binding
+ - unused_setter_value
+ - void_function_in_ternary
+ - void_return
+ - weak_delegate
+ - yoda_condition
+
+analyzer_rules:
+ - capture_variable # Capture Variable
+ - explicit_self # Explicit Self
+ - typesafe_array_init # Type-safe Array Init
+ - unused_declaration # Unused Declaration
+ - unused_import # Unused Import
+
+reporter: "xcode"
+
+included: # включенные файлы и каталоги для анализа
+ - FamilyFlow
+ - FFCore/Sources
+
+line_length:
+ error: 120
+
+file_length:
+ warning: 25
+ error: 50
+
+type_body_length:
+ warning: 200
+ error: 350

@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A8A0D862D21EBEA00D136D7 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 0A8A0D852D21EBEA00D136D7 /* .swiftlint.yml */; };
 		0AD35F502D2098370069257F /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0AD35F4F2D2098370069257F /* LICENSE */; };
 		0AD35F522D20983E0069257F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 0AD35F512D20983E0069257F /* .gitignore */; };
 		0AD35F622D209A400069257F /* FFCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0AD35F612D209A400069257F /* FFCore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A8A0D852D21EBEA00D136D7 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		0AD35EE12D208F240069257F /* FamilyFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FamilyFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AD35F4F2D2098370069257F /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		0AD35F512D20983E0069257F /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -54,6 +56,7 @@
 		0AD35ED82D208F240069257F = {
 			isa = PBXGroup;
 			children = (
+				0A8A0D852D21EBEA00D136D7 /* .swiftlint.yml */,
 				0AD35F512D20983E0069257F /* .gitignore */,
 				0AD35F4F2D2098370069257F /* LICENSE */,
 				0AD35EE32D208F240069257F /* FamilyFlow */,
@@ -76,6 +79,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0AD35EF42D208F260069257F /* Build configuration list for PBXNativeTarget "FamilyFlow" */;
 			buildPhases = (
+				0A8A0D872D21EEF300D136D7 /* SwiftLint */,
 				0AD35EDD2D208F240069257F /* Sources */,
 				0AD35EDE2D208F240069257F /* Frameworks */,
 				0AD35EDF2D208F240069257F /* Resources */,
@@ -138,11 +142,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AD35F522D20983E0069257F /* .gitignore in Resources */,
+				0A8A0D862D21EBEA00D136D7 /* .swiftlint.yml in Resources */,
 				0AD35F502D2098370069257F /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0A8A0D872D21EEF300D136D7 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]\nthen\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif command -v swiftlint >/dev/null 2>&1\nthen\n    swiftlint lint && swiftlint --fix\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0AD35EDD2D208F240069257F /* Sources */ = {
@@ -256,7 +282,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -321,7 +347,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

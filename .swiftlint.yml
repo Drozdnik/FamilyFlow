@@ -124,8 +124,8 @@ line_length:
  error: 120
 
 file_length:
- warning: 25
- error: 50
+ warning: 2500
+ error: 3000
 
 type_body_length:
  warning: 200

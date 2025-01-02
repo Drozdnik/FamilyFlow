@@ -1,7 +1,7 @@
 import FFCore
 import UIKit
 
-private final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
@@ -15,7 +15,7 @@ private final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = FFCoreMainScene()
+        window?.rootViewController = CoreMainScene()
         window?.makeKeyAndVisible()
     }
 }

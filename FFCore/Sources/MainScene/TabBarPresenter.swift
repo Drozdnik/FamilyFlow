@@ -1,13 +1,13 @@
 import UIKit
 
 @MainActor
-public final class TabBarPresenter {
+final class TabBarPresenter {
     private(set) var tabItems: [UIViewController] = []
-    
-    public init() {
+
+    init() {
         makeTabItems()
     }
-    
+
     private func makeTabItems() {
         tabItems = Tab.allCases.map { tab in
             let viewController = makeViewController(for: tab)
@@ -19,7 +19,7 @@ public final class TabBarPresenter {
             return viewController
         }
     }
-    
+
     private func makeViewController(for tab: Tab) -> UIViewController {
         switch tab {
         case .house:
@@ -39,7 +39,7 @@ private enum Tab: CaseIterable {
     case calendar
     case bag
     case profile
-    
+
     var title: String {
         switch self {
         case .house:
@@ -52,7 +52,7 @@ private enum Tab: CaseIterable {
             "profile"
         }
     }
-    
+
     var image: UIImage {
         switch self {
         case .house:
@@ -65,7 +65,7 @@ private enum Tab: CaseIterable {
             UIImage(systemName: "person")!
         }
     }
-    
+
     var selectedImage: UIImage {
         switch self {
         case .house:

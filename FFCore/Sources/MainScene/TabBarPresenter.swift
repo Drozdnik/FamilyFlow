@@ -1,81 +1,72 @@
+import SwiftUI
 import UIKit
 
 @MainActor
 final class TabBarPresenter {
     private(set) var tabItems: [UIViewController] = []
+    private let coordinators: [Tab: Coordinator]
 
-    init() {
+    init(coordinators: [Tab: Coordinator]) {
+        self.coordinators = coordinators
         makeTabItems()
     }
 
     private func makeTabItems() {
         tabItems = Tab.allCases.map { tab in
-            let viewController = makeViewController(for: tab)
+            let viewController = coordinators[tab]?.rootViewController ?? defaultViewController(for: tab)
+
             viewController.tabBarItem = UITabBarItem(
                 title: tab.title,
                 image: tab.image,
                 selectedImage: tab.selectedImage
             )
+
             return viewController
         }
     }
 
-    private func makeViewController(for tab: Tab) -> UIViewController {
-        switch tab {
-        case .house:
-            OverviewRootViewController()
-        case .calendar:
-            CalendarRootViewController()
-        case .bag:
-            PurchasesRootViewController()
-        case .profile:
-            ProfileRootViewContoller()
-        }
+    private func defaultViewController(for tab: Tab) -> UIViewController {
+        let label = UILabel()
+        label.text = "\(tab.title) - В разработке"
+        label.textAlignment = .center
+
+        let viewController = UIViewController()
+        viewController.view = label
+
+        return viewController
     }
 }
 
-private enum Tab: CaseIterable {
-    case house
+enum Tab: CaseIterable {
+    case tasks
     case calendar
     case bag
     case profile
 
     var title: String {
         switch self {
-        case .house:
-            "house"
-        case .calendar:
-            "calendar"
-        case .bag:
-            "bag"
-        case .profile:
-            "profile"
+        case .tasks: return "Tasks"
+        case .calendar: return "Calendar"
+        case .bag: return "Bag"
+        case .profile: return "Profile"
         }
     }
 
     var image: UIImage {
         switch self {
-        case .house:
-            UIImage(systemName: "house")!
-        case .calendar:
-            UIImage(systemName: "calendar")!
-        case .bag:
-            UIImage(systemName: "bag")!
-        case .profile:
-            UIImage(systemName: "person")!
+        case .tasks: return UIImage(systemName: "house")!
+        case .calendar: return UIImage(systemName: "calendar")!
+        case .bag: return UIImage(systemName: "bag")!
+        case .profile: return UIImage(systemName: "person")!
         }
     }
 
     var selectedImage: UIImage {
         switch self {
-        case .house:
-            UIImage(systemName: "house.fill")!
-        case .calendar:
-            UIImage(systemName: "calendar")!
-        case .bag:
-            UIImage(systemName: "bag.fill")!
-        case .profile:
-            UIImage(systemName: "person.fill")!
+        case .tasks: return UIImage(systemName: "house.fill")!
+        case .calendar: return UIImage(systemName: "calendar.circle.fill")!
+        case .bag: return UIImage(systemName: "bag.fill")!
+        case .profile: return UIImage(systemName: "person.fill")!
         }
     }
 }

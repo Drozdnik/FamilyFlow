@@ -14,11 +14,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let window = UIWindow(windowScene: windowScene)
 
-        let tabBarCoordinator = TabBarCoordinator()
+        let tabBarCoordinator: any Coordinator = TabBarCoordinatorImpl()
         self.tabBarCoordinator = tabBarCoordinator
 
         tabBarCoordinator.start()
-        window.rootViewController = tabBarCoordinator.tabBarController
+        window.rootViewController = tabBarCoordinator.rootViewController
         window.makeKeyAndVisible()
 
         self.window = window

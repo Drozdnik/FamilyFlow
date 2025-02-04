@@ -1,5 +1,5 @@
+
 import SwiftUI
-import UIKit
 
 @MainActor
 final class TabBarPresenter {
@@ -19,13 +19,12 @@ final class TabBarPresenter {
     private func makeTabItems() {
         tabItems = Tab.allCases.map { tab in
             let viewController = coordinators[tab]?.rootViewController ?? defaultViewController(for: tab)
-
             viewController.tabBarItem = UITabBarItem(
                 title: tab.title,
                 image: tab.image,
                 selectedImage: tab.selectedImage
             )
-
+                                     
             return viewController
         }
     }

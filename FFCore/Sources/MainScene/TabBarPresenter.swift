@@ -11,6 +11,11 @@ final class TabBarPresenter {
         makeTabItems()
     }
 
+    func configureTabBarAppearance(_ tabBar: UITabBar) {
+       tabBar.tintColor = .label
+       tabBar.backgroundColor = .systemBackground
+   }
+
     private func makeTabItems() {
         tabItems = Tab.allCases.map { tab in
             let viewController = coordinators[tab]?.rootViewController ?? defaultViewController(for: tab)

@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct TasksView: View {
-    @ObservedObject var viewModel: TasksViewModel
+struct TasksView<TasksStorage: Storage>: View where TasksStorage.Model == TaskModel {
+    @ObservedObject var viewModel: TasksViewModel<TasksStorage>
     @State private var selectedProgressIndex: Int = 0
 
     private var selectedProgress: TaskProgress {
-        TaskProgress.allCases[selectedProgressIndex]
+        TaskProgress.value(for: selectedProgressIndex)
     }
 
     var body: some View {
@@ -30,7 +30,7 @@ struct TasksView: View {
                 .font(.subheadline)
                 .foregroundColor(.gray)
 
-            Text(selectedProgress.rawValue)
+            Text(selectedProgress.description)
                 .font(.headline)
                 .transition(.slide)
         }
@@ -39,7 +39,7 @@ struct TasksView: View {
     private var taskListView: some View {
         TabView(selection: $selectedProgressIndex) {
             ForEach(TaskProgress.allCases.indices, id: \.self) { index in
-                let progress = TaskProgress.allCases[index]
+                let progress = TaskProgress.value(for: index)
 
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 10) {
@@ -51,9 +51,6 @@ struct TasksView: View {
                     .padding()
                 }
                 .tag(index)
-                .onAppear {
-                    viewModel.updateProgress(progress)
-                }
             }
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -61,8 +58,8 @@ struct TasksView: View {
 }
     struct KanbanBoardView_Previews: PreviewProvider {
         static var previews: some View {
-            let storage: TaskStorage = TaskStorageImpl(networkingService: NetworkingServiceImpl())
-            let viewModel = TasksViewModel(taskStorage: storage, progress: .toDo)
+            let storage = TasksStorageImpl(networkingService: NetworkingServiceImpl())
+            let viewModel = TasksViewModel(tasksStorage: storage)
             TasksView(viewModel: viewModel)
         }
     }

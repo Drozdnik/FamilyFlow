@@ -1,12 +1,5 @@
 import Foundation
 
-// enum ViewData {
-//    case kanban
-//    case calendar
-//    case purchase
-//    case profile
-// }
-
 protocol NetworkingService {
     func getData() -> [TaskModel]
     func addTask()
@@ -26,7 +19,7 @@ final class NetworkingServiceImpl: NetworkingService {
                 deadline: "05.01.2025",
                 priority: "Высокая",
                 assignee: "Петя",
-                progress: .toDo
+                progress: .first
             ),
             TaskModel(
                 id: 2,
@@ -34,7 +27,7 @@ final class NetworkingServiceImpl: NetworkingService {
                 deadline: "06.01.2025",
                 priority: "Средняя",
                 assignee: "Оля",
-                progress: .inProgress
+                progress: .second
             ),
             TaskModel(
                 id: 3,
@@ -42,7 +35,7 @@ final class NetworkingServiceImpl: NetworkingService {
                 deadline: "07.01.2025",
                 priority: "Низкая",
                 assignee: "Саша",
-                progress: .done
+                progress: .third
             )
         ]
 

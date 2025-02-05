@@ -1,8 +1,8 @@
 import UIKit
 
-@MainActor
 public protocol Coordinator: AnyObject {
-    func start()
+    @MainActor func start()
 
-    var rootViewController: UIViewController { get }
+    var rootViewController: UIViewController? { get }
+    var childCoordinators: [any Coordinator] { get }
 }

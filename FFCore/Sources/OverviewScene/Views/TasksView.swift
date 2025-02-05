@@ -8,8 +8,14 @@ struct TasksView<TasksStorage: Storage>: View where TasksStorage.Model == TaskMo
         TaskProgress.value(for: selectedProgressIndex)
     }
 
+    enum Constants: Double {
+        case bodySpacing = 20.0
+        case headerViewSpacing = 5.0
+        case taskListViewSpacing = 10.0
+    }
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .leading, spacing: Constants.bodySpacing.rawValue) {
             headerView
                 .animation(.easeInOut, value: selectedProgressIndex)
             taskListView
@@ -21,7 +27,7 @@ struct TasksView<TasksStorage: Storage>: View where TasksStorage.Model == TaskMo
     }
 
     private var headerView: some View {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: Constants.headerViewSpacing.rawValue) {
             // TODO: наздвание комнаты тоже приходит с бека
             Text("Комната: Living Room")
                 .font(.title)
@@ -42,7 +48,7 @@ struct TasksView<TasksStorage: Storage>: View where TasksStorage.Model == TaskMo
                 let progress = TaskProgress.value(for: index)
 
                 ScrollView {
-                    LazyVStack(alignment: .leading, spacing: 10) {
+                    LazyVStack(alignment: .leading, spacing: Constants.taskListViewSpacing.rawValue) {
                         ForEach(viewModel.filteredTasks) { task in
                             TasksCardView(task: task)
                                 .frame(maxWidth: .infinity)
@@ -56,10 +62,10 @@ struct TasksView<TasksStorage: Storage>: View where TasksStorage.Model == TaskMo
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
     }
 }
-    struct KanbanBoardView_Previews: PreviewProvider {
-        static var previews: some View {
-            let storage = TasksStorageImpl(networkingService: NetworkingServiceImpl())
-            let viewModel = TasksViewModel(tasksStorage: storage)
-            TasksView(viewModel: viewModel)
-        }
-    }
+// struct KanbanBoardView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let storage = TasksStorageImpl(networkingService: NetworkingServiceImpl())
+//        let viewModel = TasksViewModel(tasksStorage: storage)
+//        TasksView(viewModel: viewModel)
+//    }
+// }

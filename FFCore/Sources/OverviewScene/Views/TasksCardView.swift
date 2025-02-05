@@ -3,8 +3,14 @@ import SwiftUI
 struct TasksCardView: View {
     let task: TaskModel
 
+    enum Constants {
+        static let spacing = 5.0
+        static let cornerRadius = 10.0
+        static let shadowRadius = 3.0
+    }
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: Constants.spacing) {
             Text(task.title)
                 .font(.headline)
             Text("Срок: \(task.deadline)")
@@ -18,7 +24,7 @@ struct TasksCardView: View {
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color(UIColor.secondarySystemBackground))
-        .cornerRadius(10)
-        .shadow(radius: 3)
+        .cornerRadius(Constants.cornerRadius)
+        .shadow(radius: Constants.shadowRadius)
     }
 }

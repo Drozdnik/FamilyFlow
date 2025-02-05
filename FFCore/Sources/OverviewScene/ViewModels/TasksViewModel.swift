@@ -1,7 +1,6 @@
 import Combine
 import Foundation
 
-@MainActor
 final class TasksViewModel<TasksStorage: Storage>: ObservableObject where TasksStorage.Model == TaskModel {
     @Published var filteredTasks: [TaskModel] = []
     private let tasksStorage: TasksStorage
@@ -20,7 +19,7 @@ final class TasksViewModel<TasksStorage: Storage>: ObservableObject where TasksS
 
     private func bindTasks() {
         if let storage = tasksStorage as? TasksStorageImpl {
-            storage.$tasks
+            storage.$dataSource
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
                     guard let self else { return }
@@ -30,8 +29,8 @@ final class TasksViewModel<TasksStorage: Storage>: ObservableObject where TasksS
         }
     }
 
-   private func filterTasks() {
-        filteredTasks = tasksStorage.tasks.filter { $0.progress == currentStatus }
+    private func filterTasks() {
+        filteredTasks = tasksStorage.dataSource.filter { $0.progress == currentStatus }
     }
 
     func updateProgress(_ newProgress: TaskProgress) {
@@ -39,14 +38,14 @@ final class TasksViewModel<TasksStorage: Storage>: ObservableObject where TasksS
     }
 
     func addTask(_ task: TaskModel) {
-        tasksStorage.add(task: task)
+        tasksStorage.add(task)
     }
 
     func updateTask(_ task: TaskModel) {
-        tasksStorage.update(task: task)
+        tasksStorage.update(task)
     }
 
     func deleteTask(_ task: TaskModel) {
-        tasksStorage.delete(task: task)
+        tasksStorage.delete(task)
     }
 }

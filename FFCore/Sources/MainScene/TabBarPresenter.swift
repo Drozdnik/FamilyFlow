@@ -1,4 +1,3 @@
-
 import SwiftUI
 
 @MainActor
@@ -12,9 +11,9 @@ final class TabBarPresenter {
     }
 
     func configureTabBarAppearance(_ tabBar: UITabBar) {
-       tabBar.tintColor = .label
-       tabBar.backgroundColor = .systemBackground
-   }
+        tabBar.tintColor = .label
+        tabBar.backgroundColor = .systemBackground
+    }
 
     private func makeTabItems() {
         tabItems = Tab.allCases.map { tab in
@@ -24,7 +23,7 @@ final class TabBarPresenter {
                 image: tab.image,
                 selectedImage: tab.selectedImage
             )
-                                     
+
             return viewController
         }
     }

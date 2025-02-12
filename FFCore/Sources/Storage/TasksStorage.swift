@@ -16,7 +16,7 @@ public final class TasksStorageImpl: Storage, ObservableObject {
     public private(set) var dataSource: [TaskModel] = []
     private let networkingService: NetworkingService
 
-    init(networkingService: NetworkingService) {
+    public init(networkingService: NetworkingServiceImpl) {
         self.networkingService = networkingService
         dataSource = networkingService.getData()
     }

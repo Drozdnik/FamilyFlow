@@ -1,9 +1,9 @@
 import FFCore
+import SwiftUI
 import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    private var tabBarCoordinator: (any Coordinator)?
 
     func scene(
         _ scene: UIScene,
@@ -14,11 +14,13 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let window = UIWindow(windowScene: windowScene)
 
-        let tabBarCoordinator: any Coordinator = TabBarCoordinatorImpl()
-        self.tabBarCoordinator = tabBarCoordinator
-
-        tabBarCoordinator.start()
-        window.rootViewController = tabBarCoordinator.rootViewController
+        let networkService = NetworkingServiceImpl()
+        let taskStorage = TasksStorageImpl(networkingService: networkService)
+        let diContainer = DIContainer(networkService: networkService, tasksStorage: taskStorage)
+        window.rootViewController = UIHostingController(
+            rootView: ContentView()
+                .environmentObject(diContainer)
+        )
         window.makeKeyAndVisible()
 
         self.window = window

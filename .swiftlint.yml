@@ -37,7 +37,6 @@ opt_in_rules: # правила, которые нужно явно включи�
  - for_where
  - implicit_return
  - inclusive_language
- - indentation_width
  - invalid_swiftlint_command
  - is_disjoint
  - last_where
@@ -49,7 +48,6 @@ opt_in_rules: # правила, которые нужно явно включи�
  - mark
  - modifier_order
  - multiline_arguments
- - multiline_arguments_brackets
  - multiline_function_chains
  - multiline_literal_brackets
  - multiline_parameters

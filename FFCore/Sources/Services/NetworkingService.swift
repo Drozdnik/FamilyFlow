@@ -7,9 +7,9 @@ protocol NetworkingService {
     func deleteTask()
 }
 
-final class NetworkingServiceImpl: NetworkingService {
+public final class NetworkingServiceImpl: NetworkingService {
 
-    init() {}
+    public init() {}
 
     func getData() -> [TaskModel] {
         let mockTasks = [

@@ -23,13 +23,4 @@ enum TabItem: CaseIterable {
         case .profile: "person"
         }
     }
-
-    var selectedImage: String {
-        switch self {
-        case .tasks: "house.fill"
-        case .calendar: "calendar.circle.fill"
-        case .bag:  "bag.fill"
-        case .profile: "person.fill"
-        }
-    }
 }

@@ -13,8 +13,8 @@ public final class DIContainer: ObservableObject {
 
 public struct DIContainerKey: @preconcurrency EnvironmentKey {
     @MainActor public static let defaultValue: DIContainer = DIContainer(
-        networkService: MockNetworkingServiceImpl(),
-        tasksStorage: TasksStorageImpl(networkingService: MockNetworkingServiceImpl())
+        networkService: DummyNetworkingServiceImpl(),
+        tasksStorage: DummyTaskStorage()
     )
 }
 

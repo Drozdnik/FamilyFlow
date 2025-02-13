@@ -7,7 +7,7 @@ public protocol NetworkingService: Sendable {
     func deleteTask()
 }
 
-public struct MockNetworkingServiceImpl: NetworkingService {
+public struct DummyNetworkingServiceImpl: NetworkingService {
     public func getData() -> [TaskItem] { [] }
     public func addTask() {}
     public func updateTask() {}

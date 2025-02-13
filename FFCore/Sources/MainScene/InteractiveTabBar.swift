@@ -19,10 +19,11 @@ struct InteractiveTabBar: View {
         )
     }
 
+    @ViewBuilder
     func tapButton(_ tab: TabItem) -> some View {
         let isActive = activeTab == tab
 
-        return VStack {
+        VStack {
             Image(systemName: tab.imageName)
                 .symbolVariant(.fill)
                 .frame(

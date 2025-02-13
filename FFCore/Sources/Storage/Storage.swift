@@ -10,10 +10,10 @@ public protocol Storage {
     func delete(_ model: Model)
 }
 
-public struct MockStorageImpl: Storage {
-    public var dataSource: [Void]
+struct DummyTaskStorage: TasksStorage {
+    var dataSource: [TaskItem] = []
 
-    public func add(_ model: Void) {}
-    public func update(_ model: Void) {}
-    public func delete(_ model: Void) {}
+    func add(_ model: TaskItem) {}
+    func update(_ model: TaskItem) {}
+    func delete(_ model: TaskItem) {}
 }

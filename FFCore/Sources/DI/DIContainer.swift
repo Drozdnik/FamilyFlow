@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  FFCore
-//
-//  Created by Михаил  on 12.02.2025.
-//
-
 import Foundation
 
 public final class DIContainer<TaskStorage: Storage>: ObservableObject where TaskStorage.Model == TaskModel {

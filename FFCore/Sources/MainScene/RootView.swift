@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct ContentView: View {
+public struct RootView: View {
     @State private var activeTab: TabItem = .tasks
     @EnvironmentObject private var diContainer: DIContainer<TasksStorageImpl>
 
@@ -26,6 +26,6 @@ public struct ContentView: View {
 
 struct ContentViewPreview: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        RootView()
     }
 }

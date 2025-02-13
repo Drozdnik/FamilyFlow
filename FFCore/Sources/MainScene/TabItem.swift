@@ -24,12 +24,12 @@ enum TabItem: CaseIterable {
         }
     }
 
-    var selectedImage: UIImage {
+    var selectedImage: String {
         switch self {
-        case .tasks: return UIImage(systemName: "house.fill")!
-        case .calendar: return UIImage(systemName: "calendar.circle.fill")!
-        case .bag: return UIImage(systemName: "bag.fill")!
-        case .profile: return UIImage(systemName: "person.fill")!
+        case .tasks: "house.fill"
+        case .calendar: "calendar.circle.fill"
+        case .bag:  "bag.fill"
+        case .profile: "person.fill"
         }
     }
 }

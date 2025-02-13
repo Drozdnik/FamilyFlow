@@ -18,7 +18,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let taskStorage = TasksStorageImpl(networkingService: networkService)
         let diContainer = DIContainer(networkService: networkService, tasksStorage: taskStorage)
         window.rootViewController = UIHostingController(
-            rootView: ContentView()
+            rootView: RootView()
                 .environmentObject(diContainer)
         )
         window.makeKeyAndVisible()

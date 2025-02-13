@@ -1,19 +1,12 @@
 import Foundation
 
-protocol NetworkingService {
-    func getData() -> [TaskModel]
-    func addTask()
-    func updateTask()
-    func deleteTask()
-}
-
 public final class NetworkingServiceImpl: NetworkingService {
 
     public init() {}
 
-    func getData() -> [TaskModel] {
+    public func getData() -> [TaskItem] {
         let mockTasks = [
-            TaskModel(
+            TaskItem(
                 id: 1,
                 title: "Задача 1",
                 deadline: "05.01.2025",
@@ -21,7 +14,7 @@ public final class NetworkingServiceImpl: NetworkingService {
                 assignee: "Петя",
                 progress: .first
             ),
-            TaskModel(
+            TaskItem(
                 id: 2,
                 title: "Задача 2",
                 deadline: "06.01.2025",
@@ -29,7 +22,7 @@ public final class NetworkingServiceImpl: NetworkingService {
                 assignee: "Оля",
                 progress: .second
             ),
-            TaskModel(
+            TaskItem(
                 id: 3,
                 title: "Задача 3",
                 deadline: "07.01.2025",
@@ -43,10 +36,9 @@ public final class NetworkingServiceImpl: NetworkingService {
     }
 
     // TODO: Добавить возвращаемый тип, подумать каким он будет
-    func addTask() {}
+    public func addTask() {}
 
-    func updateTask() {}
+    public func updateTask() {}
 
-    func deleteTask() {}
-
+    public func deleteTask() {}
 }

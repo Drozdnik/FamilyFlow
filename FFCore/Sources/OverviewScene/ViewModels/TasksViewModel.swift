@@ -1,9 +1,9 @@
 import Combine
 import Foundation
 
-final class TasksViewModel<TasksStorage: Storage>: ObservableObject where TasksStorage.Model == TaskModel {
-    @Published var filteredTasks: [TaskModel] = []
-    private let tasksStorage: TasksStorage
+final class TasksViewModel: ObservableObject {
+    @Published private(set) var filteredTasks: [TaskItem] = []
+    private let tasksStorage: any TasksStorage
     private var cancellables = Set<AnyCancellable>()
     private var currentStatus: TaskProgress {
         didSet {
@@ -11,9 +11,9 @@ final class TasksViewModel<TasksStorage: Storage>: ObservableObject where TasksS
         }
     }
 
-    init(tasksStorage: TasksStorage, progress: TaskProgress = .first) {
+    init(tasksStorage: any TasksStorage, currentStatus: TaskProgress = .first) {
         self.tasksStorage = tasksStorage
-        self.currentStatus = progress
+        self.currentStatus = currentStatus
         bindTasks()
     }
 
@@ -37,15 +37,15 @@ final class TasksViewModel<TasksStorage: Storage>: ObservableObject where TasksS
         currentStatus = newProgress
     }
 
-    func addTask(_ task: TaskModel) {
+    func addTask(_ task: TaskItem) {
         tasksStorage.add(task)
     }
 
-    func updateTask(_ task: TaskModel) {
+    func updateTask(_ task: TaskItem) {
         tasksStorage.update(task)
     }
 
-    func deleteTask(_ task: TaskModel) {
+    func deleteTask(_ task: TaskItem) {
         tasksStorage.delete(task)
     }
 }

@@ -1,13 +1,26 @@
 import Foundation
+import SwiftUI
 
-public final class DIContainer<TaskStorage: Storage>: ObservableObject where TaskStorage.Model == TaskModel {
-    let networkService: NetworkingService
-    let tasksStorage: TaskStorage
-    let tasksViewModel: TasksViewModel<TaskStorage>
+public final class DIContainer: ObservableObject {
+    let networkService: any NetworkingService
+    let tasksStorage: any TasksStorage
 
-    public init(networkService: NetworkingServiceImpl, tasksStorage: TaskStorage) {
+    public init(networkService: any NetworkingService, tasksStorage: any TasksStorage) {
         self.networkService = networkService
         self.tasksStorage = tasksStorage
-        tasksViewModel = TasksViewModel(tasksStorage: tasksStorage)
+    }
+}
+
+public struct DIContainerKey: @preconcurrency EnvironmentKey {
+    @MainActor public static let defaultValue: DIContainer = DIContainer(
+        networkService: DummyNetworkingServiceImpl(),
+        tasksStorage: DummyTaskStorage()
+    )
+}
+
+public extension EnvironmentValues {
+    var diContainer: DIContainer {
+        get { self[DIContainerKey.self] }
+        set { self[DIContainerKey.self] = newValue }
     }
 }

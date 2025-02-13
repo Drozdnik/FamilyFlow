@@ -1,6 +1,6 @@
 import Foundation
 
-public struct TaskModel: Codable, Identifiable {
+public struct TaskItem: Codable, Identifiable {
     public let id: Int
 
     let title: String

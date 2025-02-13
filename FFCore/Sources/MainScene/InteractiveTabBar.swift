@@ -13,9 +13,10 @@ struct InteractiveTabBar: View {
         .frame(height: Constants.height)
         .padding(.horizontal, Constants.horizontalPadding)
         .padding(.bottom, Constants.bottomPadding)
-        .background(.background.shadow(
-            .drop(color: .primary.opacity(Constants.shadowOpacity),
-                  radius: Constants.shadowRadius)))
+        .background(.background.shadow(.drop(
+            color: .primary.opacity(Constants.shadowOpacity),
+            radius: Constants.shadowRadius))
+        )
     }
 
     @ViewBuilder
@@ -23,7 +24,7 @@ struct InteractiveTabBar: View {
         let isActive = activeTab == tab
 
         VStack {
-            Image(systemName: tab.image)
+            Image(systemName: tab.imageName)
                 .symbolVariant(.fill)
                 .frame(
                     width: isActive ? Constants.activeIconSize : Constants.inactiveIconSize,

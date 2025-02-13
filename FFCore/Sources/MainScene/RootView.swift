@@ -2,16 +2,16 @@ import SwiftUI
 
 public struct RootView: View {
     @State private var activeTab: TabItem = .tasks
-    @EnvironmentObject private var diContainer: DIContainer<TasksStorageImpl>
+    @Environment(\.diContainer) private var diContainer
 
-    public init () {}
+    public init() {}
 
     public var body: some View {
         ZStack(alignment: .bottom) {
             TabView(selection: $activeTab) {
-                TasksView(viewModel: diContainer.tasksViewModel)
+                TasksView(viewModel: TasksViewModel(tasksStorage: diContainer.tasksStorage))
                     .tag(TabItem.tasks)
-                Text("В разработке")
+                CalendarView(calendarViewModel: CalendarViewModel(tasksStorage: diContainer.tasksStorage))
                     .tag(TabItem.calendar)
                 Text("В разработке")
                     .tag(TabItem.bag)
@@ -21,11 +21,5 @@ public struct RootView: View {
         }
 
         InteractiveTabBar(activeTab: $activeTab)
-    }
-}
-
-struct ContentViewPreview: PreviewProvider {
-    static var previews: some View {
-        RootView()
     }
 }

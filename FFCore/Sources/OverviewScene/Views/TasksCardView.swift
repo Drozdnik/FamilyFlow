@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct TasksCardView: View {
-    let task: TaskModel
+    let task: TaskItem
 
     enum Constants {
         static let spacing = 5.0

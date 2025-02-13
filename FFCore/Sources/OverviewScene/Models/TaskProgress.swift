@@ -15,8 +15,7 @@ enum TaskProgress: Int, CaseIterable, Codable {
 
     static func value(for index: Int) -> Self {
         guard let progress = Self(rawValue: index) else {
-            assertionFailure("Invalid index for TaskProgress: \(index)")
-            fatalError("Invalid index for TaskProgress")
+            fatalError("Invalid index for TaskProgress: \(index)")
         }
         return progress
     }

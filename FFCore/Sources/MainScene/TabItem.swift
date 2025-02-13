@@ -15,7 +15,7 @@ enum TabItem: CaseIterable {
         }
     }
 
-    var image: String {
+    var imageName: String {
         switch self {
         case .tasks: "house"
         case .calendar: "calendar"

@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct TasksView<TasksStorage: Storage>: View where TasksStorage.Model == TaskModel {
-    @ObservedObject var viewModel: TasksViewModel<TasksStorage>
+struct TasksView: View {
+    @ObservedObject private(set) var viewModel: TasksViewModel
     @State private var selectedProgressIndex: Int = 0
 
     private var selectedProgress: TaskProgress {
@@ -62,10 +62,3 @@ struct TasksView<TasksStorage: Storage>: View where TasksStorage.Model == TaskMo
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
     }
 }
-// struct KanbanBoardView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let storage = TasksStorageImpl(networkingService: NetworkingServiceImpl())
-//        let viewModel = TasksViewModel(tasksStorage: storage)
-//        TasksView(viewModel: viewModel)
-//    }
-// }

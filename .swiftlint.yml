@@ -54,7 +54,6 @@ opt_in_rules: # правила, которые нужно явно включи�
  - multiline_parameters_brackets
  - multiple_closures_with_trailing_closure
  - nesting
- - no_grouping_extension
  - no_magic_numbers
  - no_space_in_method_call
  - trailing_newline

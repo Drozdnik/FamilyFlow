@@ -30,7 +30,10 @@ struct WeekView: View {
                 selection: $selectedWeek,
                 before: { DateHelper.previousWeek(before: $0) },
                 after: { DateHelper.nextWeek(after: $0) },
-                view: { daysView(for: $0, geometry: geometry) }
+                view: { daysView(for: $0, geometry: geometry) },
+                onDisappear: { week in
+                    selectedDay = week.days.first(where: { $0.dayOfWeek == selectedDay.dayOfWeek }) ?? selectedDay
+                }
             )
             .frame(height: Constants.height)
             .padding(.horizontal, Constants.padding)
@@ -60,7 +63,7 @@ struct WeekView: View {
     }
 
     private func calculateLayoutParametrs(for day: Day, size: (base: CGFloat, large: CGFloat)) -> LayoutParameters {
-        let cellSize = calculateCellSize(for: day, size: size)
+        let cellSize = day == selectedDay ? size.large : size.base
         let lineWidth = day.isToday ? Constants.todayLineWidth : Constants.defaultLineWidth
         let strokeColor = day == selectedDay ? Constants.selectedStrokeColor : Constants.defaultStrokeColor
         let fontSize = day == selectedDay ? Constants.selectedFontSize : Constants.defaultFontSize
@@ -74,20 +77,5 @@ struct WeekView: View {
             fontSize: fontSize,
             backgroundColor: backgroundColor
         )
-    }
-
-    private func calculateCellSize(for day: Day, size: (base: CGFloat, large: CGFloat)) -> CGFloat {
-        if selectedWeek.days.contains(selectedDay) {
-            return day == selectedDay ? size.large : size.base
-        }
-        if day.dayOfWeek == selectedDay.dayOfWeek {
-            Task {
-                await MainActor.run {
-                    selectedDay = day
-                }
-            }
-            return size.large
-        }
-        return size.base
     }
 }

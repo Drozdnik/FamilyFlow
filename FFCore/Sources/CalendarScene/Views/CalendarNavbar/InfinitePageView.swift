@@ -8,6 +8,8 @@ struct InfinitePageView<C, T>: View where C: View, T: Hashable {
 
     @ViewBuilder let view: (T) -> C
 
+    let onDisappear: (T) -> Void
+
     @State private var currentTab: Int = 0
 
     var body: some View {
@@ -22,6 +24,7 @@ struct InfinitePageView<C, T>: View where C: View, T: Hashable {
                     if currentTab != 0 {
                         selection = currentTab < 0 ? previousIndex : nextIndex
                         currentTab = 0
+                        onDisappear(selection)
                     }
                 }
                 .tag(0)

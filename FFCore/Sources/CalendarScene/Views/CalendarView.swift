@@ -8,6 +8,18 @@ struct CalendarView: View {
     }
 
     var body: some View {
-        Text("CalendarView in development")
+        VStack {
+            CalendarNavbar(selectedWeek: $viewModel.selectedWeek, selectedDay: $viewModel.selectedDay)
+            Spacer()
+            Text("CalendarView in development")
+            Spacer()
+        }
     }
 }
+
+ #Preview {
+    @Environment(\.diContainer) var diContainer
+    CalendarView(
+        calendarViewModel: CalendarViewModel(tasksStorage: diContainer.tasksStorage)
+    )
+ }

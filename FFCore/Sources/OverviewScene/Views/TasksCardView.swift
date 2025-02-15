@@ -23,7 +23,7 @@ struct TasksCardView: View {
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(UIColor.secondarySystemBackground))
+        .background(Color.secondarySystemBackground)
         .cornerRadius(Constants.cornerRadius)
         .shadow(radius: Constants.shadowRadius)
     }

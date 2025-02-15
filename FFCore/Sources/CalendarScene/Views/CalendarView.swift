@@ -9,7 +9,7 @@ struct CalendarView: View {
 
     var body: some View {
         VStack {
-            CalendarNavbar(selectedWeek: $viewModel.selectedWeek)
+            CalendarNavbar(selectedWeek: $viewModel.selectedWeek, selectedDay: $viewModel.selectedDay)
             Spacer()
             Text("CalendarView in development")
             Spacer()
@@ -17,9 +17,9 @@ struct CalendarView: View {
     }
 }
 
-#Preview {
+ #Preview {
     @Environment(\.diContainer) var diContainer
     CalendarView(
         calendarViewModel: CalendarViewModel(tasksStorage: diContainer.tasksStorage)
     )
-}
+ }

@@ -14,11 +14,11 @@ struct Week: Hashable, Equatable, Identifiable {
         DateHelper.formatMonthRange(from: firstDay, to: lastDay)
     }
 
-    var firstDay: Date {
-        days.first?.date ?? Date.now
+    var firstDay: Day {
+        days.first.flatMap({ Day(date: $0.date) }) ?? Date.today
     }
 
-    var lastDay: Date {
-        days.last?.date ?? Date.now
+    var lastDay: Day {
+        days.last.flatMap({ Day(date: $0.date) }) ?? firstDay
     }
 }

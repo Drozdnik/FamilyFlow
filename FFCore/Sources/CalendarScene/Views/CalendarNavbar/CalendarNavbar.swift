@@ -2,7 +2,8 @@ import SwiftUI
 import UIKit
 
 struct CalendarNavbar: View {
-    @Binding var selectedWeek: Week?
+    @Binding var selectedWeek: Week
+    @Binding var selectedDay: Day
 
     private enum Constants {
         static let textFontSize: CGFloat = 22.0
@@ -19,7 +20,7 @@ struct CalendarNavbar: View {
     var body: some View {
         VStack(spacing: Constants.padding) {
             navigationTitle()
-            WeekView(selectedWeek: $selectedWeek)
+            WeekView(selectedWeek: $selectedWeek, selectedDay: $selectedDay)
             Divider()
         }
         .frame(height: Constants.navbarHeight)
@@ -36,16 +37,13 @@ struct CalendarNavbar: View {
             )
     }
 
-    @ViewBuilder
     private func navigationTitle() -> some View {
-        if let selectedWeek {
-            HStack {
-                Text(selectedWeek.monthName)
-                    .padding(.horizontal, Constants.textPadding)
-                    .font(.system(size: Constants.textFontSize))
-                    .bold()
-                Spacer()
-            }
+        HStack {
+            Text(selectedWeek.monthName)
+                .padding(.horizontal, Constants.textPadding)
+                .font(.system(size: Constants.textFontSize))
+                .bold()
+            Spacer()
         }
     }
 }

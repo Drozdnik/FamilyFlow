@@ -23,40 +23,44 @@ enum DateHelper {
         }
     }
 
-    static func getWeek(for date: Date) -> Week? {
+    static func getWeek(for day: Day) -> Week {
+        getWeek(for: day.date)
+    }
+
+    static func getWeek(for date: Date) -> Week {
         guard let startOfWeek = Date.calendar.date(
             from: Date.calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
         ) else {
-            return nil
+            fatalError("Unexpected error occurred")
         }
 
         let dayOfWeekRange = 0..<7
         let days: [Day] = dayOfWeekRange.compactMap { index in
-            guard let day = Date.calendar.date(byAdding: .day, value: index, to: startOfWeek) else {
-                return nil
+            guard let dayDate = Date.calendar.date(byAdding: .day, value: index, to: startOfWeek) else {
+                fatalError("Unexpected error occurred")
             }
-            return Day(date: day)
+            return Day(date: dayDate)
         }
 
         return Week(days: days)
     }
 
-    static func formatMonthRange(from startDate: Date, to endDate: Date) -> String {
+    static func formatMonthRange(from startDay: Day, to endDay: Day) -> String {
         let calendar = Calendar.current
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "LLLL"
 
-        let startMonth = dateFormatter.string(from: startDate).capitalized
-        let endMonth = dateFormatter.string(from: endDate).capitalized
+        let startMonth = dateFormatter.string(from: startDay.date).capitalized
+        let endMonth = dateFormatter.string(from: endDay.date).capitalized
 
         let yearFormatter = DateFormatter()
         yearFormatter.dateFormat = "yyyy"
 
-        let startYear = yearFormatter.string(from: startDate)
-        let endYear = yearFormatter.string(from: endDate)
+        let startYear = yearFormatter.string(from: startDay.date)
+        let endYear = yearFormatter.string(from: endDay.date)
 
         if startYear == endYear {
-            if calendar.isDate(startDate, equalTo: endDate, toGranularity: .month) {
+            if calendar.isDate(startDay.date, equalTo: endDay.date, toGranularity: .month) {
                 return "\(startMonth), \(startYear)"
             }
             return "\(startMonth) - \(endMonth), \(startYear)"
@@ -64,40 +68,27 @@ enum DateHelper {
         return "\(startMonth) \(startYear) - \(endMonth) \(endYear)"
     }
 
-    static func generateWeeks(in centerDate: Date, with range: Int = 2) -> [Week] {
-        var weeks: [Week] = []
-
-        for offset in -range...range {
-            if let weekDate = Date.calendar.date(byAdding: .weekOfYear, value: offset, to: centerDate),
-               let week = Self.getWeek(for: weekDate) {
-                weeks.append(week)
-            }
-        }
-
-        return weeks
+    static func findToday(in arr: [Day]) -> Day {
+        arr.first(where: { $0.isToday }) ?? arr.first ?? Date.today
     }
 
-    static func previousWeek(before week: Week? = nil) -> Week? {
-        guard
-            let firstDay = week?.firstDay,
-            let previousWeekDate = Date.calendar.date(byAdding: .weekOfYear, value: -1, to: firstDay),
-            let previousWeek = Self.getWeek(for: previousWeekDate)
-        else {
-            return nil
+    static func previousWeek(before week: Week) -> Week {
+        let firstDay = week.firstDay
+        guard let previousWeekDate = Date.calendar.date(byAdding: .weekOfYear, value: -1, to: firstDay.date) else {
+            fatalError("Unexpected error occurred")
         }
+        let previousWeek = Self.getWeek(for: previousWeekDate)
 
         return previousWeek
 
     }
 
-    static func nextWeek(after week: Week? = nil) -> Week? {
-        guard
-            let firstDay = week?.firstDay,
-            let nextWeekDate = Date.calendar.date(byAdding: .weekOfYear, value: +1, to: firstDay),
-            let nextWeek = Self.getWeek(for: nextWeekDate)
-        else {
-            return nil
+    static func nextWeek(after week: Week) -> Week {
+        let firstDay = week.firstDay
+        guard let nextWeekDate = Date.calendar.date(byAdding: .weekOfYear, value: +1, to: firstDay.date) else {
+            fatalError("Unexpected error occurred")
         }
+        let nextWeek = Self.getWeek(for: nextWeekDate)
 
         return nextWeek
     }

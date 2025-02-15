@@ -1,16 +1,27 @@
 import SwiftUI
 
 struct WeekView: View {
-    @Binding var selectedWeek: Week?
+    typealias LayoutParameters = DayView.LayoutParameters
 
-    private enum LayoutType {
-        case custom(baseSize: CGFloat, largeSize: CGFloat)
-        case `default`(size: CGFloat)
-    }
+    @Binding var selectedWeek: Week
+    @Binding var selectedDay: Day
 
     private enum Constants {
         static let height: CGFloat = 75.0
-        static let padding: CGFloat = 8.0
+        static let padding: CGFloat = 4.0
+
+        static let todayLineWidth: CGFloat = 2.0
+        static let defaultLineWidth: CGFloat = 1.0
+
+        static let selectedFontSize: CGFloat = 20.0
+        static let defaultFontSize: CGFloat = 16.0
+
+        static let selectedStrokeColor: Color = .gray
+        static let defaultStrokeColor: Color = .lightGray
+
+        static let opacity: CGFloat = 0.3
+        static let todayBackgroundColor: Color = Color.lightGray
+        static let defaultBackgroundColor: Color = .clear
     }
 
     var body: some View {
@@ -26,43 +37,57 @@ struct WeekView: View {
         }
     }
 
-    @ViewBuilder
-    private func daysView(for week: Week?, geometry: GeometryProxy) -> some View {
-        if let week {
-            let layoutType = calculateLayoutType(for: week, geometry: geometry)
-            HStack(spacing: 0) {
-                ForEach(week.days) { day in
-                    let size: CGFloat
-                    switch layoutType {
-                    case .custom(let baseSize, let largeSize):
-                        size = day.isToday ? largeSize : baseSize
-                    case .default(let defaultSize):
-                        size = defaultSize
-                    }
-                    return DayView(day: day, size: size)
-                }
+    private func daysView(for week: Week, geometry: GeometryProxy) -> some View {
+        HStack(spacing: 0) {
+            let size = calculateLayout(geometry: geometry)
+            ForEach(week.days) { day in
+                let layoutParameters = calculateLayoutParametrs(for: day, size: size)
+                DayView(selectedDay: $selectedDay, day: day, layoutParameters: layoutParameters)
             }
         }
     }
 
-    private func calculateLayoutType(
-        for week: Week,
-        geometry: GeometryProxy
-    ) -> LayoutType {
+    private func calculateLayout(geometry: GeometryProxy) -> (base: CGFloat, large: CGFloat) {
         // swiftlint:disable no_magic_numbers
-        let isCustomWeekLayout = week.days.contains(where: { $0.isToday })
         let totalSpacing: CGFloat = 8 * 6
         let sidePadding: CGFloat = 8 * 2
         let availableWidth = geometry.size.width - totalSpacing - sidePadding
-
-        if isCustomWeekLayout {
-            let baseSize = availableWidth / (6 + 1.2)
-            let largeSize = baseSize * 1.2
-            return .custom(baseSize: baseSize, largeSize: largeSize)
-        }
-        let squareSize = availableWidth / 7
+        let baseSize = availableWidth / (6 + 1.2)
+        let largeSize = baseSize * 1.2
         // swiftlint:enable no_magic_numbers
 
-        return .default(size: squareSize)
+        return (baseSize, largeSize)
+    }
+
+    private func calculateLayoutParametrs(for day: Day, size: (base: CGFloat, large: CGFloat)) -> LayoutParameters {
+        let cellSize = calculateCellSize(for: day, size: size)
+        let lineWidth = day.isToday ? Constants.todayLineWidth : Constants.defaultLineWidth
+        let strokeColor = day == selectedDay ? Constants.selectedStrokeColor : Constants.defaultStrokeColor
+        let fontSize = day == selectedDay ? Constants.selectedFontSize : Constants.defaultFontSize
+        let backgroundColor =
+            day.isToday ? Constants.todayBackgroundColor.opacity(Constants.opacity) : Constants.defaultBackgroundColor
+
+        return LayoutParameters(
+            size: cellSize,
+            lineWidth: lineWidth,
+            strokeColor: strokeColor,
+            fontSize: fontSize,
+            backgroundColor: backgroundColor
+        )
+    }
+
+    private func calculateCellSize(for day: Day, size: (base: CGFloat, large: CGFloat)) -> CGFloat {
+        if selectedWeek.days.contains(selectedDay) {
+            return day == selectedDay ? size.large : size.base
+        }
+        if day.dayOfWeek == selectedDay.dayOfWeek {
+            Task {
+                await MainActor.run {
+                    selectedDay = day
+                }
+            }
+            return size.large
+        }
+        return size.base
     }
 }

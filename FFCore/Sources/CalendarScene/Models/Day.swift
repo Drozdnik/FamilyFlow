@@ -8,8 +8,14 @@ struct Day: Identifiable, Equatable, Hashable {
         date.isToday
     }
 
+    var dayOfWeek: Int {
+        let components = Date.calendar.component(.weekday, from: date)
+        let dayPerWeek = 7
+        return (components - Date.firstWeekdayIndex) % dayPerWeek
+    }
+
     init(id: Double? = nil, date: Date) {
         self.id = id ?? date.timeIntervalSince1970
-        self.date = date
+        self.date = date.strip(to: .days)
     }
 }

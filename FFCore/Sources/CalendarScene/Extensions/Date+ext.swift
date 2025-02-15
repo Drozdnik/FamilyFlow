@@ -1,10 +1,18 @@
 import Foundation
 
-public extension Date {
+extension Date {
     enum StripTimeType: CaseIterable {
         case month
         case days
         case minutes
+
+        var rawValue: Set<Calendar.Component> {
+            switch self {
+            case .month: [.year, .month]
+            case .days: [.year, .month, .day]
+            case .minutes: [.year, .month, .day, .minute]
+            }
+        }
     }
 
     static let firstWeekdayIndex: Int = 2
@@ -14,8 +22,8 @@ public extension Date {
         return calendar
     }()
 
-    var tomorrow: Date {
-        Calendar.current.date(byAdding: .day, value: 1, to: self) ?? self
+    static var today: Day {
+        Day(date: .now)
     }
 
     var isToday: Bool {
@@ -29,27 +37,7 @@ public extension Date {
     }
 
     func strip(to stripTimeType: Date.StripTimeType) -> Date {
-        let components: DateComponents
-        switch stripTimeType {
-        case .month:
-            components = Date.calendar.dateComponents([.year, .month], from: self)
-        case .days:
-            components = Date.calendar.dateComponents([.year, .month, .day], from: self)
-        case .minutes:
-            components = Date.calendar.dateComponents([.year, .month, .day, .hour, .minute], from: self)
-        }
+        let components = Date.calendar.dateComponents(stripTimeType.rawValue, from: self)
         return Date.calendar.date(from: components) ?? self
-
-    }
-}
-
-public extension Optional where Wrapped == Date {
-    func toString(format: String = "yyyy-MM-dd HH:mm:ss") -> String {
-        switch self {
-        case .none:
-            return ""
-        case .some(let wrapped):
-            return wrapped.toString(format: format)
-        }
     }
 }

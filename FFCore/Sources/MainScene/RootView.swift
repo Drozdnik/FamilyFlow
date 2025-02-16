@@ -13,7 +13,7 @@ public struct RootView: View {
                     TasksView(viewModel: RoomsViewModel(networkingService: diContainer.networkService))
                 }.tint(.black)
                     .tag(TabItem.tasks)
-                Text("В разработке")
+                CalendarView(calendarViewModel: CalendarViewModel(tasksStorage: diContainer.tasksStorage))
                     .tag(TabItem.calendar)
                 Text("В разработке")
                     .tag(TabItem.bag)

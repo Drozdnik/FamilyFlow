@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol TasksManager {
+protocol TasksManager {
     func add(_ model: TaskItem)
 
     func update(_ model: TaskItem)
@@ -8,13 +8,13 @@ public protocol TasksManager {
     func delete(_ model: TaskItem)
 }
 
-public final class TasksManagerImpl: TasksManager {
+final class TasksManagerImpl: TasksManager {
 
-    public init() {}
+    init() {}
 
-    public func add(_ model: TaskItem) {}
+    func add(_ model: TaskItem) {}
 
-    public func update(_ model: TaskItem) {}
+    func update(_ model: TaskItem) {}
 
-    public func delete(_ model: TaskItem) {}
+    func delete(_ model: TaskItem) {}
 }

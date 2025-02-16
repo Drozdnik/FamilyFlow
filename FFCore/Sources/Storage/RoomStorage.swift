@@ -10,7 +10,14 @@ public final class RoomsStorageImpl: RoomsStorage, ObservableObject {
 
     public init(networkingService: NetworkingService) {
         self.networkingService = networkingService
-        dataSource = networkingService.getData()
+        networkingService.getRooms(completion: { result in
+            switch result {
+            case .success(let rooms):
+                dataSource = rooms
+            case .failure:
+                break
+            }
+        })
     }
 
     public func add(_ model: Room) {}

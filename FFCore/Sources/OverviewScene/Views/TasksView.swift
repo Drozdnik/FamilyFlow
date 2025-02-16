@@ -15,15 +15,25 @@ struct TasksView<ViewModel: TasksBaseVM>: View {
         TaskProgress.value(for: selectedProgressIndex)
     }
 
+    private var progressDescription: String {
+        TaskProgress.allCases.description
+    }
+    private var selectedProgressBinding: Binding<Int> {
+        Binding {
+            selectedProgressIndex
+        } set: { newIndex in
+            selectedProgressIndex = newIndex
+            viewModel.updateProgress(TaskProgress.value(for: newIndex))
+        }
+
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.bodySpacing.rawValue) {
             headerView
                 .animation(.easeInOut, value: selectedProgressIndex)
 
             taskListView
-        }
-        .onChange(of: selectedProgress) { newProgress in // TODO: мб вот этот OnChange можно убрать
-            viewModel.updateProgress(newProgress)
         }
         .navigationTitle(viewModel.title)
         .navigationBarTitleDisplayMode(.inline)
@@ -45,7 +55,7 @@ struct TasksView<ViewModel: TasksBaseVM>: View {
                     .font(.subheadline)
                     .foregroundColor(.gray)
 
-                Text(selectedProgress.description)
+                Text("\(TaskProgress.value(for: selectedProgressIndex).description)")
                     .font(.headline)
                     .transition(.slide)
             }
@@ -59,7 +69,7 @@ struct TasksView<ViewModel: TasksBaseVM>: View {
     private var taskListView: some View {
         switch viewModel {
         case let viewModel as TasksViewModel:
-            TabView(selection: $selectedProgressIndex) {
+            TabView(selection: selectedProgressBinding) {
                 ForEach(TaskProgress.allCases.indices, id: \.self) { _ in
                     scrollView
                 }

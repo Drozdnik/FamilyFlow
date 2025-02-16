@@ -3,18 +3,18 @@ import SwiftUI
 
 public final class DIContainer: ObservableObject {
     let networkService: any NetworkingService
-    let tasksStorage: any TasksStorage
+    let roomsStorage: any RoomsStorage
 
-    public init(networkService: any NetworkingService, tasksStorage: any TasksStorage) {
+    public init(networkService: any NetworkingService, roomsStorage: any RoomsStorage) {
         self.networkService = networkService
-        self.tasksStorage = tasksStorage
+        self.roomsStorage = roomsStorage
     }
 }
 
 public struct DIContainerKey: @preconcurrency EnvironmentKey {
     @MainActor public static let defaultValue: DIContainer = DIContainer(
         networkService: DummyNetworkingServiceImpl(),
-        tasksStorage: DummyTaskStorage()
+        roomsStorage: DummyRoomsStorage()
     )
 }
 

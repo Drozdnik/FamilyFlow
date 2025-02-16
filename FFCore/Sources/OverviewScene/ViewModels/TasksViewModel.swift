@@ -1,9 +1,19 @@
 import Combine
 import Foundation
 
-final class TasksViewModel: ObservableObject {
+final class TasksViewModel: TasksBaseVM, ObservableObject {
+
+    private(set) var title: String
     @Published private(set) var filteredTasks: [TaskItem] = []
-    private let tasksStorage: any TasksStorage
+    var items: [TaskItem] {
+        filteredTasks
+    }
+    var id: String {
+        currentRoom.id
+    }
+
+    private let tasksManager: TasksManager
+    private let currentRoom: Room
     private var cancellables = Set<AnyCancellable>()
     private var currentStatus: TaskProgress {
         didSet {
@@ -11,41 +21,43 @@ final class TasksViewModel: ObservableObject {
         }
     }
 
-    init(tasksStorage: any TasksStorage, currentStatus: TaskProgress = .first) {
-        self.tasksStorage = tasksStorage
+    init(
+        currentRoom: Room,
+        currentStatus: TaskProgress = .first
+    ) {
+        tasksManager = TasksManagerImpl()
+        self.currentRoom = currentRoom
         self.currentStatus = currentStatus
+        title = currentRoom.title
         bindTasks()
     }
 
     private func bindTasks() {
-        if let storage = tasksStorage as? TasksStorageImpl {
-            storage.$dataSource
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] _ in
-                    guard let self else { return }
-                    filterTasks()
-                }
-                .store(in: &cancellables)
-        }
+        currentRoom.$tasks
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                filterTasks()
+            }
+            .store(in: &cancellables)
     }
 
     private func filterTasks() {
-        filteredTasks = tasksStorage.dataSource.filter { $0.progress == currentStatus }
+        filteredTasks = currentRoom.tasks.filter { $0.progress == currentStatus }
     }
 
     func updateProgress(_ newProgress: TaskProgress) {
         currentStatus = newProgress
     }
 
-    func addTask(_ task: TaskItem) {
-        tasksStorage.add(task)
+    func createItem() {
     }
 
     func updateTask(_ task: TaskItem) {
-        tasksStorage.update(task)
+        tasksManager.update(task)
     }
 
     func deleteTask(_ task: TaskItem) {
-        tasksStorage.delete(task)
+        tasksManager.delete(task)
     }
 }

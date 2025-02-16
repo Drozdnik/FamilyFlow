@@ -4,7 +4,7 @@ public final class NetworkingServiceImpl: NetworkingService {
 
     public init() {}
 
-    public func getData() -> [TaskItem] {
+    public func getData() -> [Room] {
         let mockTasks = [
             TaskItem(
                 id: 1,
@@ -32,7 +32,12 @@ public final class NetworkingServiceImpl: NetworkingService {
             )
         ]
 
-        return mockTasks
+        let mockRooms = [
+            Room(id: "1", tasks: mockTasks, title: "Рабочее", subTitle: "Здесь рабочие задачи"),
+            Room(id: "2", tasks: mockTasks, title: "Дом", subTitle: "Здесь находятся домашние задачи")
+        ]
+
+        return mockRooms
     }
 
     // TODO: Добавить возвращаемый тип, подумать каким он будет

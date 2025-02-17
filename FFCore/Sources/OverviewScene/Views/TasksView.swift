@@ -7,14 +7,27 @@ private enum Constants: Double {
     case buttonSize = 24.0
 }
 
+enum LayoutType {
+    case task(TasksViewModel)
+    case room(RoomsViewModel)
+
+    var viewModel: any TasksBaseVM {
+        switch self {
+        case let .task(viewModel):
+            return viewModel
+        case let .room(viewModel):
+            return viewModel
+        }
+    }
+}
+
 struct TasksView<ViewModel: TasksBaseVM>: View {
-    @ObservedObject private(set) var viewModel: ViewModel
     @State private var selectedProgressIndex: Int = 0
+    private let layoutType: LayoutType
 
     private var selectedProgress: TaskProgress {
         TaskProgress.value(for: selectedProgressIndex)
     }
-
     private var progressDescription: String {
         TaskProgress.allCases.description
     }
@@ -23,9 +36,15 @@ struct TasksView<ViewModel: TasksBaseVM>: View {
             selectedProgressIndex
         } set: { newIndex in
             selectedProgressIndex = newIndex
-            viewModel.updateProgress(TaskProgress.value(for: newIndex))
+            if case let.task(viewModel) = layoutType {
+                viewModel.updateProgress(TaskProgress.value(for: newIndex))
+            }
         }
+    }
 
+    init(layoutType: LayoutType, selectedProgressIndex: Int = 0) {
+        self.layoutType = layoutType
+        self.selectedProgressIndex = selectedProgressIndex
     }
 
     var body: some View {
@@ -35,11 +54,11 @@ struct TasksView<ViewModel: TasksBaseVM>: View {
 
             taskListView
         }
-        .navigationTitle(viewModel.title)
+        .navigationTitle(layoutType.viewModel.title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: viewModel.createItem) {
+                Button(action: layoutType.viewModel.createItem) {
                     Image(systemName: "plus")
                 }
             }
@@ -48,8 +67,8 @@ struct TasksView<ViewModel: TasksBaseVM>: View {
 
     @ViewBuilder
     private var headerView: some View {
-        switch viewModel {
-        case let viewModel as TasksViewModel:
+        switch layoutType {
+        case let .task(viewModel):
             VStack(alignment: .leading, spacing: Constants.headerViewSpacing.rawValue) {
                 Text("ID: \(viewModel.id)")
                     .font(.subheadline)
@@ -60,32 +79,30 @@ struct TasksView<ViewModel: TasksBaseVM>: View {
                     .transition(.slide)
             }
             .padding(.leading, Constants.padding.rawValue)
-        default:
+        case .room:
             EmptyView()
         }
     }
 
     @ViewBuilder
     private var taskListView: some View {
-        switch viewModel {
-        case let viewModel as TasksViewModel:
+        switch layoutType {
+        case .task:
             TabView(selection: selectedProgressBinding) {
                 ForEach(TaskProgress.allCases.indices, id: \.self) { _ in
                     scrollView
                 }
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-        case let viewModel as RoomsViewModel:
+        case .room:
             scrollView
-        default:
-            EmptyView()
         }
     }
 
     private var scrollView: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: Constants.padding.rawValue) {
-                ForEach(viewModel.items) { item in
+                ForEach(layoutType.viewModel.items.compactMap({ $0 as? ViewModel.Item })) { item in
                     NavigationLink {
                         destinationView(for: item)
                     } label: {
@@ -105,10 +122,9 @@ struct TasksView<ViewModel: TasksBaseVM>: View {
         case let task as TaskItem:
             EmptyView() // тут должен быть экран редактирования, а мб даже никак не среагировать
         case let room as Room:
-            TasksView<TasksViewModel>(viewModel: TasksViewModel(currentRoom: room))
+            TasksView<TasksViewModel>(layoutType: .task(TasksViewModel(currentRoom: room)))
         default:
-            EmptyView()
-
+            fatalError("wrong type of item")
         }
     }
 }

@@ -1,30 +1,26 @@
 import SwiftUI
 
-struct TasksCardView: View {
-    let task: TaskItem
-
-    enum Constants {
+struct TaskCardView: CardViewItemProtocol {
+    private enum Constants {
         static let spacing = 5.0
-        static let cornerRadius = 10.0
-        static let shadowRadius = 3.0
     }
 
-    var body: some View {
+    let task: TaskItem
+
+    var contentView: some View {
         VStack(alignment: .leading, spacing: Constants.spacing) {
             Text(task.title)
                 .font(.headline)
+                .foregroundColor(.primary)
             Text("Срок: \(task.deadline)")
                 .font(.subheadline)
                 .foregroundColor(.gray)
             Text("Приоритет: \(task.priority)")
                 .font(.subheadline)
+                .foregroundColor(.primary)
             Text("Ответственный: \(task.assignee)")
                 .font(.subheadline)
+                .foregroundColor(.primary)
         }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.secondarySystemBackground)
-        .cornerRadius(Constants.cornerRadius)
-        .shadow(radius: Constants.shadowRadius)
     }
 }

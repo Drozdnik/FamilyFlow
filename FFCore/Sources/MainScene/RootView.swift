@@ -9,7 +9,10 @@ public struct RootView: View {
     public var body: some View {
         ZStack(alignment: .bottom) {
             TabView(selection: $activeTab) {
-                TasksView(viewModel: TasksViewModel(tasksStorage: diContainer.tasksStorage))
+                NavigationView {
+                    SlotsViewFactory
+                        .makeSlotsView(for: .room(RoomsViewModel(networkingService: diContainer.networkService)))
+                }.tint(.black)
                     .tag(TabItem.tasks)
                 CalendarView(calendarViewModel: CalendarViewModel(tasksStorage: diContainer.tasksStorage))
                     .tag(TabItem.calendar)

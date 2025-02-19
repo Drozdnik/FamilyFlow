@@ -15,8 +15,13 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
 
         let networkService = NetworkingServiceImpl()
-        let taskStorage = TasksStorageImpl(networkingService: networkService)
-        let diContainer = DIContainer(networkService: networkService, tasksStorage: taskStorage)
+        let roomsStorage = RoomsStorageImpl(networkingService: networkService)
+        let tasksStorage = TasksStorageImpl(networkingService: networkService)
+        let diContainer = DIContainer(
+            networkService: networkService,
+            roomsStorage: roomsStorage,
+            tasksStorage: tasksStorage
+        )
         window.rootViewController = UIHostingController(
             rootView: RootView()
                 .environment(\.diContainer, diContainer)

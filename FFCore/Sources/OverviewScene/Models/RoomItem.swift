@@ -1,6 +1,6 @@
 import Foundation
 
-public final class Room: ObservableObject, Identifiable {
+public final class RoomItem: ObservableObject, Identifiable {
     public let id: String
     @Published var tasks: [TaskItem]
     let title: String

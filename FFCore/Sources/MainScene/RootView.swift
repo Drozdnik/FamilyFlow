@@ -10,11 +10,8 @@ public struct RootView: View {
         ZStack(alignment: .bottom) {
             TabView(selection: $activeTab) {
                 NavigationView {
-                    TasksView<RoomsViewModel>(
-                        layoutType: .room(
-                            RoomsViewModel(networkingService: diContainer.networkService)
-                        )
-                    )
+                    SlotsViewFactory
+                        .makeSlotsView(for: .room(RoomsViewModel(networkingService: diContainer.networkService)))
                 }.tint(.black)
                     .tag(TabItem.tasks)
                 CalendarView(calendarViewModel: CalendarViewModel(tasksStorage: diContainer.tasksStorage))

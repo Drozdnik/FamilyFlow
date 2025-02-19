@@ -4,7 +4,7 @@ protocol ApiEndpoint {
 }
 
 struct RoomsEndPoint: ApiEndpoint {
-    typealias Response = [Room]
+    typealias Response = [RoomItem]
 }
 
 struct TasksEndPoint: ApiEndpoint {
@@ -26,7 +26,7 @@ public final class NetworkingServiceImpl: NetworkingService {
         // swiftlint:enable force_cast
     }
 
-    public func getRooms(completion: (Result<[Room], Error>) -> Void) {
+    public func getRooms(completion: (Result<[RoomItem], Error>) -> Void) {
         let endPoint = RoomsEndPoint()
         getData(for: endPoint, completion: completion)
     }
@@ -72,6 +72,6 @@ nonisolated(unsafe) private let mockTasks = [
 ]
 
 nonisolated(unsafe) private let mockRooms = [
-    Room(id: "1", tasks: mockTasks, title: "Рабочее", subTitle: "Здесь рабочие задачи"),
-    Room(id: "2", tasks: mockTasks, title: "Дом", subTitle: "Здесь находятся домашние задачи")
+    RoomItem(id: "1", tasks: mockTasks, title: "Рабочее", subTitle: "Здесь рабочие задачи"),
+    RoomItem(id: "2", tasks: mockTasks, title: "Дом", subTitle: "Здесь находятся домашние задачи")
 ]

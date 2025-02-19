@@ -1,28 +1,31 @@
 import Combine
 import Foundation
 
-final class TasksViewModel: TasksBaseVM, ObservableObject {
+final class TasksViewModel: SlotsBaseViewModel, ObservableObject {
 
     private(set) var title: String
     @Published private(set) var filteredTasks: [TaskItem] = []
-    var items: [TaskItem] {
-        filteredTasks
+    var items: [SlotsItem] {
+        filteredTasks.map { .task($0) }
     }
     var id: String {
         currentRoom.id
     }
 
     private let tasksManager: TasksManager
-    private let currentRoom: Room
+    private let currentRoom: RoomItem
     private var cancellables = Set<AnyCancellable>()
     private var currentStatus: TaskProgress {
         didSet {
             filterTasks()
         }
     }
+    var progressDescription: String {
+        currentStatus.description
+    }
 
     init(
-        currentRoom: Room,
+        currentRoom: RoomItem,
         currentStatus: TaskProgress = .first
     ) {
         tasksManager = TasksManagerImpl()
